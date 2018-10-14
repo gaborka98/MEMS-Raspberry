@@ -13,23 +13,21 @@ def add_to_database(time, temp, hum, pres):
     add_data = ("INSERT INTO data "
                 "(date, temp, hum, pres) "
                 "VALUES (%s, %s, %s, %s)")
-    data= (time, temp, hum, pres)
+    data= (time, round(temp,2), round(hum,2), round(pres,2))
     
     cursor.execute(add_data, data)
-    
-    mydb.commit()
     
 def set_date(a,b):
     if a == "" and b == "":
         today = datetime.datetime.now().replace(microsecond = 0)
-        a = datetime(today.year, today.month, today.day,8,00,00)
-        b = datetime(today.year, today.month, today.day,20,00,00)
+        a = datetime(today.year, today.month, today.day,8,0,0)
+        b = datetime(today.year, today.month, today.day,20,0,0)
     else:
         a = datetime.strptime(str(a), "%Y-%m-%d %H:%M:%S")
         b = datetime.strptime(str(b), "%Y-%m-%d %H:%M:%S")
     return (a,b)
         
-def avg(a,b):   
+def avg(a,b):
     query = ("SELECT AVG(temp) FROM data "
              "WHERE date BETWEEN %s AND %s")
     

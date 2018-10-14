@@ -1,0 +1,38 @@
+html {
+	color: white;
+	background-color: darkergrey;
+}
+
+ul {
+	width: 50%;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #848484;
+}
+
+li {
+	float: left;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 16px;
+	text-decoration: none;
+}
+
+li a:hover {
+	background-color: #2e2e2e;
+}
+
+li a:active {
+	background-color: #08088a;
+}
+
+button {
+	color: white;
+	background-color: #848484;
+}
