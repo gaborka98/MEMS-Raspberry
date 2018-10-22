@@ -18,26 +18,18 @@ twitter = Twython(
 )
 
 def post(date, temp, hum, pres):
-    try:
-        if date.hour == 20:
-            msg = "A napi átlag hőmérséklet (8:00 és 20:00 közt): %.2f" % mc.avg("","")
-            twitter.update_status(status=msg)
-            msg = "A mai nap legmagasabb hőmérséklete (8:00 és 20:00 kközt): %.2f" % mc.max("","")
-            twitter.update_status(status=msg)
-            msg = "A mai nap legalacsonyabb hőmérséklete (8:00 és 20:00 közt): %.2f" % mc.min("","")
-            twitter.update_status(status=msg)
-            
-        msg = "%s - Homerseklet: %.2f C, Para tartalom: %.2f g/m, Legnyomas: %.2f" \
-            % (date, temp, hum, pres)
-        twitter.update_status(status = msg)
-        sense.load_image("img/twitter.png")
-        time.sleep(1)
-        sense.load_image("img/done.png")
-        time.sleep(1)
-    except TwythonError:
-        sense.load_image("img/twitter.png")
-        time.sleep(1)
-        sense.load_image("img/bad.png")
-        time.sleep(1)
-        raise
-
+    if date.hour == 20:
+        msg = "A napi átlag hőmérséklet (8:00 és 20:00 közt): %.2f" % mc.avg("","")
+        twitter.update_status(status=msg)
+        msg = "A mai nap legmagasabb hőmérséklete (8:00 és 20:00 kközt): %.2f" % mc.max("","")
+        twitter.update_status(status=msg)
+        msg = "A mai nap legalacsonyabb hőmérséklete (8:00 és 20:00 közt): %.2f" % mc.min("","")
+        twitter.update_status(status=msg)
+        
+    msg = "%s - Homerseklet: %.2f C, Para tartalom: %.2f g/m, Legnyomas: %.2f" \
+        % (date, temp, hum, pres)
+    twitter.update_status(status = msg)
+    sense.load_image("img/twitter.png")
+    time.sleep(1)
+    sense.load_image("img/done.png")
+    time.sleep(1)

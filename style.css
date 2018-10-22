@@ -1,10 +1,11 @@
-html {
-	color: white;
-	background-color: darkergrey;
+#menu {
+	float: right;
+	left: -50%;
+	position: relative;
 }
 
-ul {
-	width: 50%;
+#menu ul {
+	width: 500px;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -12,11 +13,11 @@ ul {
 	background-color: #848484;
 }
 
-li {
+#menu li {
 	float: left;
 }
 
-li a {
+#menu li a {
 	display: block;
 	color: white;
 	text-align: center;
@@ -24,11 +25,11 @@ li a {
 	text-decoration: none;
 }
 
-li a:hover {
+#menu li a:hover {
 	background-color: #2e2e2e;
 }
 
-li a:active {
+#menu li a:active {
 	background-color: #08088a;
 }
 
