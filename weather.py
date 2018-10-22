@@ -65,8 +65,8 @@ def main():
             #printing and write to file
             print("%d:%d:%d\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres))
             file.writelines("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres)+"\n")
-            mc.add_to_database(date, correct, hum, pres)
-            tw.post(date, correct, hum, pres)
+            #mc.add_to_database(date, correct, hum, pres)
+            #tw.post(date, correct, hum, pres)
             file.flush()
             sense.stick.direction_any = exit_joystick
             
@@ -80,7 +80,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-#os.system("sudo rm /var/www/html/stop")
+os.system("sudo rm /var/www/html/stop")
 sense.show_message("Goodbye!", scroll_speed=0.1, text_colour=(255,0,0))
 file.close()
 sense.clear()

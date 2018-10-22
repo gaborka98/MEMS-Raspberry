@@ -2,7 +2,41 @@
 	<head>
 		<meta charset="utf-8" lang="hu">
 		<title>Raspberry weather station</title>
-		<link rel="stylesheet" href="style.css">
+		<style>
+			ul {
+				width: 500px;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				background-color: #848484;
+			}
+
+			li {
+				float: left;
+			}
+
+			li a {
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 16px;
+				text-decoration: none;
+			}
+
+			li a:hover {
+				background-color: #2e2e2e;
+			}
+
+			li a:active {
+				background-color: #08088a;
+			}
+
+			button {
+				color: white;
+				background-color: #848484;
+			}
+		</style>
 	</head>
 <body bgcolor="darkgrey">
 	<ul>
@@ -14,8 +48,7 @@
 	
 <iframe scrolling="no" src="all.html" id="iframe" name="iframe" frameborder="none" height="410" width="510">grafikonok megjelenitése</iframe><br>
 <form action="" method="post" id="buttons" name="buttons">
-	<!--<label>Mérési időköz percben: <input type="number" name="time" id="time" min="1" max="5000" value="60"></label><br>
-	<label>Fájl helye, neve, kiterjesztése: <input type="text" name="name" id="name" maxlength="150"></label><br>-->
+	<label>Mérési időköz percben: <input type="number" name="time" id="time" min="1" max="5000" value="60"></label><br>
 	<button name="start" id="start">start</button><br>
 	<button name="stop" id="stop">stop</button><br>
 	<button name="refresh" id="refresh">refresh data</button><br>
@@ -27,28 +60,8 @@ if (isset($_POST["refresh"])) {
 	header("reload:0;");
 }
 else if (isset($_POST["stop"])) {
-	// exec('touch /var/www/html/stop');
-	exec('sudo systemctl stop weather.service');
+	exec('sudo killall weather.py');
 }
 else if (isset($_POST["start"])) {
-	exec('sudo systemctl start weather.service');
-	/* $time = $_POST["time"];
-	$name = $_POST["name"];
-	$n_arg = "";
-	$t_arg = "";
-	if ($time != 60) {
-		$t_arg = " -t ";
-	}
-	else {
-		$time = "";
-	}
-	if ($name != "") {
-		$n_arg = " -o ";
-	}
-	echo $time, $t_arg;
-	echo $name, $n_arg;
-	TODO run fucking python script */
-}
-?>
-</body>
-</html>
+	$time = "-t ". $_POST["time"];
+	exec('sudo systemctl st
