@@ -64,4 +64,8 @@ else if (isset($_POST["stop"])) {
 }
 else if (isset($_POST["start"])) {
 	$time = "-t ". $_POST["time"];
-	exec('sudo systemctl st
+	exec('sudo systemctl start weather@"'.$time.'"');
+}
+?>
+</body>
+</html>

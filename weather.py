@@ -5,6 +5,7 @@ import os, sys
 import time, datetime
 import argparse
 import twitter_bot as tw
+import sendemail
 
 sense = SenseHat()
 date = datetime.datetime.now().replace(microsecond=0)
@@ -44,7 +45,9 @@ def check_file(file):
 def exit_joystick(event):
     global retry
     retry = False
-    sense.show_message("Goodbye!", scroll_speed=0.1, text_colour=(255,0,0))
+    #raise KeyboardInterrupt
+    #sense.show_message("Goodbye!", scroll_speed=0.1, text_colour=(255,0,0))
+    
 
 def main():
     try:
@@ -53,7 +56,7 @@ def main():
         check_file(file)
         file = open(file, "a+")
         print("Az adatok ide mentodnek:",file.name)
-        while (not os.path.exists("/var/www/html/stop")) and retry:
+        while retry:
             #initialize
             temp = sense.get_temperature_from_humidity()
             hum = sense.get_humidity()
@@ -65,22 +68,23 @@ def main():
             #printing and write to file
             print("%d:%d:%d\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres))
             file.writelines("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres)+"\n")
-            #mc.add_to_database(date, correct, hum, pres)
-            #tw.post(date, correct, hum, pres)
+            mc.add_to_database(date, correct, hum, pres)
+            tw.post_avg(date)
+            tw.post(date, correct, hum, pres)
+            sendemail.send_email(sendemail.set_text(correct,date))
+            
+            
             file.flush()
-            sense.stick.direction_any = exit_joystick
+            sense.stick.direction_any = exit_joystick 
             
             time.sleep(wait_time*60) #wait 1 hour 60^2, *60 percbe adja meg a paraméter
     except KeyboardInterrupt:
-        #mc.avg()
-        #file.close()
-        #sense.show_message("Goodbye!", scroll_speed=0.1, text_colour=(255,0,0))
         pass
+    
 
 if __name__ == "__main__":
     main()
 
-os.system("sudo rm /var/www/html/stop")
 sense.show_message("Goodbye!", scroll_speed=0.1, text_colour=(255,0,0))
 file.close()
 sense.clear()

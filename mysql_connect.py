@@ -19,7 +19,7 @@ def add_to_database(time, temp, hum, pres):
     
 def set_date(a,b):
     if a == "" and b == "":
-        today = datetime.datetime.now().replace(microsecond = 0)
+        today = datetime.now().replace(microsecond = 0)
         a = datetime(today.year, today.month, today.day,8,0,0)
         b = datetime(today.year, today.month, today.day,20,0,0)
     else:
@@ -33,15 +33,16 @@ def avg(a,b):
     
     cursor.execute(query, set_date(a,b))
     for avg in cursor:
-        return avg
+        return avg[0]
         #print("Átlag %s és %s közt: %.2f" % a, b, temp)
 def max(a,b):
     query = ("SELECT MAX(temp) FROM data "
              "WHERE date BETWEEN %s AND %s")
     
     cursor.execute(query, set_date(a,b))
+
     for max in cursor:
-        return max
+        return max[0]
     
 def min(a,b):
     query = ("SELECT MIN(temp) FROM data "
@@ -49,6 +50,4 @@ def min(a,b):
     
     cursor.execute(query, set_date(a,b))
     for min in cursor:
-        return min
-    
-    
+        return min[0]
