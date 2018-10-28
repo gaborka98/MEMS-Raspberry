@@ -1,21 +1,14 @@
+import twitter_auth
 from twython import Twython
 from twython import TwythonError
 import mysql_connect as mc
 from datetime import datetime
-from sense_hat import SenseHat
-
-sense = SenseHat()
-
-consumer_key = 'ofoSudll3PZmPyDOaBpshBEe8'
-consumer_secret = 'BSWUqEfCF3G1HRODKwUN51O5qwUfURi2r3Joxv7u4HY2hBDfQp'
-access_token = '479690115-B83jqVyzF6Ed4GwYpQJgWkTQPIv604ny5wdh8iVF'
-access_token_secret = 'SKZN10FaCJJCeZjIHbLpw6gQiiLB9TOPGVzBFh7JKhY65'
 
 twitter = Twython(
-    consumer_key,
-    consumer_secret,
-    access_token,
-    access_token_secret
+    twitter_auth.consumer_key,
+    twitter_auth.consumer_secret,
+    twitter_auth.access_token,
+    twitter_auth.access_token_secret
 )
 
 megjo = True

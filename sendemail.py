@@ -1,4 +1,5 @@
 import smtplib
+import sendemail_auth
 
 megjo = True
 def set_text(temp, date):
@@ -36,8 +37,8 @@ def send_email(msg,fromaddres="gaborka98@t-online.hu",toaddres="gaborka812@gmail
     msg = "From: %s\nTo: %s\nSubject: %s\n\n%s" % (fromaddr, toaddr, subj,text)
     msg += footer
 
-    s = smtplib.SMTP('mail.t-online.hu')
+    s = smtplib.SMTP(sendemail_auth.server)
     s.starttls()
-    s.login('gaborka98@t-online.hu','Gaborka11')
+    s.login(sendemail_auth.user,sendemail_auth.pw)
     s.sendmail(fromaddr, toaddr, msg.encode("utf-8"))
     s.quit()

@@ -1,11 +1,12 @@
 import mysql.connector
+import mysql_auth as auth
 from datetime import datetime
 
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="pi",
-    passwd="Gaborka11",
-    database="Weather"
+    host = auth.host,
+    user = auth.user,
+    passwd = auth.passwd,
+    database = auth.database
     )
 cursor = mydb.cursor()
 

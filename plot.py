@@ -1,17 +1,13 @@
 #! /usr/bin/python3
 
+import mysql_connect as mc
 import matplotlib.pyplot as plt
 import mpld3
 import mysql.connector
 import datetime
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="pi",
-    passwd="Gaborka11",
-    database="Weather"
-    )
-cursor = mydb.cursor()
+mydb = mc.mydb
+cursor = mc.cursor
 
 dates = []
 temps = []
