@@ -28,3 +28,4 @@ def post(date, temp, hum, pres):
     msg = "%s - Hőmérséklet: %.2f C, Pára tartalom: %.2f g/m, Légnyomás: %.2f Pa" \
         % (date, temp, hum, pres)
     twitter.update_status(status = msg)
+    post_avg(date)

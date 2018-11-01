@@ -6,6 +6,7 @@ import time, datetime
 import argparse
 import twitter_bot as tw
 import sendemail
+import plot
 
 sense = SenseHat()
 date = datetime.datetime.now().replace(microsecond=0)
@@ -67,11 +68,14 @@ def main():
 				
             #printing and write to file
             print("%d:%d:%d\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres))
-            file.writelines("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres)+"\n")
-            mc.add_to_database(date, correct, hum, pres)
-            tw.post_avg(date)
-            tw.post(date, correct, hum, pres)
-            sendemail.send_email(sendemail.set_text(correct,date))
+            #file.writelines("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres)+"\n")
+            #mc.add_to_database(date, correct, hum, pres)
+            #plot.plot_all()
+            #plot.plot_avg()
+            #plot.plot_max()
+            #plot.plot_min()
+            #tw.post(date, correct, hum, pres)
+            #sendemail.send_email(sendemail.set_text(correct,date))
             
             
             file.flush()
