@@ -44,7 +44,7 @@ def twitter(arg,a="",b=""):
         return data[0]
 
 
-def plot(arg, a=NULL, b=NULL):
+def plot(arg, a=0, b=0):
     data = []
     dates = []
     temps = []

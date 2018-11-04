@@ -4,11 +4,12 @@ import mysql_connect as mc
 import matplotlib.pyplot as plt
 import mpld3
 import datetime
+import sys
 
 mydb = mc.mydb
 cursor = mc.cursor
 
-def plot(arg, a = NULL, b = NULL):
+def plot(arg, a = 0, b = 0):
     data = mc.plot(arg)
     fig = plt.figure(1,figsize=(5,4))
     plt.plot(data[0],data[1],"o-", label="Hőmérséklet")
