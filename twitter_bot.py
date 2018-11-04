@@ -17,7 +17,7 @@ def post_avg(date):
     if megjo and (date.hour == 20):
         msg = """A mai nap átlag hőmérséklete: %s
 A mai nap legnagyobb hőmérséklete: %s
-A mai nap legkisebb hőmérséklete: %s""" % (mc.avg("",""), mc.max("",""), mc.min("",""))
+A mai nap legkisebb hőmérséklete: %s""" % (mc.twitter("avg"), mc.twitter("max"), mc.twitter("min"))
         twitter.update_status(status = msg)
         megjo = False
     else:

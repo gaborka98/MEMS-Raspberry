@@ -65,7 +65,6 @@ def main():
             correct = temp - ((get_cpu_temp()-temp)/0.98)
             global date
             date = datetime.datetime.now().replace(microsecond=0)
-				
             #printing and write to file
             print("%d:%d:%d\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres))
             #file.writelines("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres)+"\n")

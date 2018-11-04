@@ -17,7 +17,7 @@ def add_to_database(time, temp, hum, pres):
     data= (time, round(temp,2), round(hum,2), round(pres,2))
     
     cursor.execute(add_data, data)
-    
+
 def set_date(a,b):
     if a == "" and b == "":
         today = datetime.now().replace(microsecond = 0)
@@ -27,28 +27,52 @@ def set_date(a,b):
         a = datetime.strptime(str(a), "%Y-%m-%d %H:%M:%S")
         b = datetime.strptime(str(b), "%Y-%m-%d %H:%M:%S")
     return (a,b)
-        
-def avg(a,b):
-    query = ("SELECT AVG(temp) FROM data "
-             "WHERE date BETWEEN %s AND %s")
+    
+def twitter(arg,a="",b=""):
+    if arg == "avg":
+        query = ("SELECT date, AVG(temp) FROM data "
+                 "WHERE date BETWEEN %s AND %s")
+    elif arg == "min":
+        query = ("SELECT MIN(temp) FROM data "
+                 "WHERE date BETWEEN %s AND %s")
+    elif arg == "max":
+        query = ("SELECT date, MAX(temp) FROM data "
+                 "WHERE date BETWEEN %s AND %s")
     
     cursor.execute(query, set_date(a,b))
-    for avg in cursor:
-        return avg[0]
-        #print("Átlag %s és %s közt: %.2f" % a, b, temp)
-def max(a,b):
-    query = ("SELECT MAX(temp) FROM data "
-             "WHERE date BETWEEN %s AND %s")
-    
-    cursor.execute(query, set_date(a,b))
+    for data in cursor:
+        return data[0]
 
-    for max in cursor:
-        return max[0]
-    
-def min(a,b):
-    query = ("SELECT MIN(temp) FROM data "
-             "WHERE date BETWEEN %s AND %s")
-    
-    cursor.execute(query, set_date(a,b))
-    for min in cursor:
-        return min[0]
+
+def plot(arg, a=NULL, b=NULL):
+    data = []
+    dates = []
+    temps = []
+    hums = []
+    presures = []
+    if arg == "avg":
+        query = ("SELECT date, AVG(temp), AVG(hum), AVG(pres) FROM data "
+                 "GROUP BY DATE(date)")
+    elif arg == "min":
+        query = ("SELECT date, MIN(temp), MIN(hum), MIN(pres) FROM data "
+                 "GROUP BY DATE(date)")
+    elif arg == "max":
+        query = ("SELECT date, MAX(temp), MAX(hum), MAX(pres) FROM data "
+                 "GROUP BY DATE(date)")
+    elif arg == "custom":
+        query = ("SELECT date, temp, hum), AVG(pres) FROM data "
+             "GROUP BY DATE(date)" 
+             "WHERE date BETWEEN %s AND %s") % set_date(a, b) #!!!!!!!!!!!!!!!!!!!!!!!!!
+    else:
+        query = ("SELECT date, temp, hum, pres FROM data")
+    cursor.execute(query)
+    for (date,temp,hum,pres) in cursor:
+            dates.append(date.date())
+            temps.append(temp)
+            hums.append(hum)
+            presures.append(pres)
+    data.append(dates)
+    data.append(temps)
+    data.append(hums)
+    data.append(presures)
+    return data
