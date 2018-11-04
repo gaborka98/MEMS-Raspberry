@@ -10,7 +10,7 @@ mydb = mc.mydb
 cursor = mc.cursor
 
 def plot(arg, a = 0, b = 0):
-    data = mc.plot(arg)
+    data = mc.plot(arg, a, b)
     fig = plt.figure(1,figsize=(5,4))
     plt.plot(data[0],data[1],"o-", label="Hőmérséklet")
     plt.plot(data[0],data[2],"o-", label="Páratartalom")
@@ -38,5 +38,5 @@ plot("avg")
 plot("max")
 plot("min")
 if sys.argv[1] == "custom":
-    plot("custom",sys.argv[2], sys.argv[3])
+    plot("custom", sys.argv[2], sys.argv[3])
 print("OK!!")

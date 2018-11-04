@@ -43,7 +43,6 @@ def twitter(arg,a="",b=""):
     for data in cursor:
         return data[0]
 
-
 def plot(arg, a=0, b=0):
     data = []
     dates = []
