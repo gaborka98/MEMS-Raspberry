@@ -1,4 +1,4 @@
-host="Mysql ip cím (saját géped akkor localhost)"
-user="Felhasználóneved"
-passwd="Jelszó"
-database="Adatbázis neve"
+host='localhost'
+user='pi'
+passwd='Gaborka11'
+database='Weather'

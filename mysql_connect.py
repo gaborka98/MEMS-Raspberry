@@ -5,7 +5,7 @@ from datetime import datetime
 mydb = mysql.connector.connect(
     host = auth.host,
     user = auth.user,
-    passwd = auth.passwd,
+    password = auth.passwd,
     database = auth.database
     )
 cursor = mydb.cursor()
@@ -17,6 +17,8 @@ def add_to_database(time, temp, hum, pres):
     data= (time, round(temp,2), round(hum,2), round(pres,2))
     
     cursor.execute(add_data, data)
+    
+    mydb.commit()
 
 def set_date(a,b):
     if a == None and b == None:
