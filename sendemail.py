@@ -27,18 +27,21 @@ def set_text(temp, date):
     else:
         megjo = True
 
-def send_email(msg,fromaddres="gaborka98@t-online.hu",toaddres="gaborka812@gmail.com",subject="Weather Station"):
+def send_email(msg,date,fromaddres="gaborka98@t-online.hu",toaddres="gaborka812@gmail.com",subject="Weather Station"):
     fromaddr=fromaddres
     toaddr=toaddres
     subj = subject
-    text = msg
-    footer = "\n\nMinden üzenet csak ajánlás nem kötelező betartani és komolyan venni."
+    footer = "Minden üzenet csak ajánlás nem kötelező betartani és komolyan venni."
 
-    msg = "From: %s\nTo: %s\nSubject: %s\n\n%s" % (fromaddr, toaddr, subj,text)
-    msg += footer
+    msg = "From: %s\nTo: %s\nSubject: %s\n\n%s\n\n%s" % (fromaddr, toaddr, subj,msg, footer)
 
     s = smtplib.SMTP(sendemail_auth.server)
     s.starttls()
     s.login(sendemail_auth.user,sendemail_auth.pw)
-    s.sendmail(fromaddr, toaddr, msg.encode("utf-8"))
+    global megjo
+    if megjo and (date.hour==8 or date.hour==12 or date.hour==18):
+        s.sendmail(fromaddr, toaddr, msg.encode("utf-8"))
+        megjo = False
+    else:
+        megjo = True
     s.quit()

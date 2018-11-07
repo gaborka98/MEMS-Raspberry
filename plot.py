@@ -29,14 +29,13 @@ def plot(arg, a = None, b = None):
     plt.ylabel("Érték")
     plt.grid()
     plt.legend()
-    plt.show()
-    mpld3.save_html(fig, "/var/www/html/%s.html") % arg
+    #plt.show()
+    mpld3.save_html(fig, "/var/www/html/%s.html" %arg)
     plt.close('all')
 
 plot("all")
 plot("avg")
 plot("max")
 plot("min")
-if sys.argv[1] == "custom":
-    plot("custom", sys.argv[2], sys.argv[3])
-print("OK!!")
+if len(sys.argv) > 1:
+    plot(sys.argv[1], sys.argv[2], sys.argv[3])

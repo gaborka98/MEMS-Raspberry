@@ -60,19 +60,19 @@ try:
         
         #printing and write to file
         print("%d:%d:%d\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres))
-        #file.writelines("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres)+"\n")
-        #mc.add_to_database(date, correct, hum, pres)
-        #plot.plot("all")
-        #plot.plot("min")
-        #plot.plot("max")
-        #plot.plot("avg")
-        #tw.post(date, correct, hum, pres)
-        #sendemail.send_email(sendemail.set_text(correct,date))
+        file.writelines("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres)+"\n")
+        mc.add_to_database(date, correct, hum, pres)
+        plot.plot("all")
+        plot.plot("min")
+        plot.plot("max")
+        plot.plot("avg")
+        tw.post(date, correct, hum, pres)
+        sendemail.send_email(sendemail.set_text(correct,date),date)
         
         file.flush()
         
         try:
-            time.sleep(wait_time*60) #wait 1 hour 60^2, *60 percbe adja meg a paraméter
+            sleep(wait_time*60) #wait 1 hour 60^2, *60 percbe adja meg a paraméter
         except KeyboardInterrupt:
             loop = False
             raise KeyboardInterrupt
@@ -80,6 +80,5 @@ except KeyboardInterrupt:
     sense.show_message("Goodbye!", scroll_speed=0.05, text_colour=(255,0,0))
     file.close()
     sense.clear()
-    sys.exit()
 finally:
-    print("Valami hiba törtnént...")
+    print("\nKilépés...")
