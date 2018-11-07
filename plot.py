@@ -9,7 +9,7 @@ import sys
 mydb = mc.mydb
 cursor = mc.cursor
 
-def plot(arg, a = 0, b = 0):
+def plot(arg, a = None, b = None):
     data = mc.plot(arg, a, b)
     fig = plt.figure(1,figsize=(5,4))
     plt.plot(data[0],data[1],"o-", label="Hőmérséklet")

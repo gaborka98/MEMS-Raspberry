@@ -2,21 +2,21 @@
 from sense_hat import SenseHat
 import mysql_connect as mc
 import os, sys
-import time, datetime
+from time import sleep
+from datetime import datetime
 import argparse
 import twitter_bot as tw
 import sendemail
 import plot
 
 sense = SenseHat()
-date = datetime.datetime.now().replace(microsecond=0)
+date = datetime.now().replace(microsecond = 0)
 file = "/var/www/html/data/"+str(date.year)+"-"+str(date.month)+"-"+str(date.day)+".csv"
-retry = True
 
 #command line argument
-parser = argparse.ArgumentParser(description="Weather Station with python.", epilog="Kilépés a programból: ctrl+c")
-parser.add_argument("-t", "--time",dest="time", help="get data intervall in second.", type=float, default=60) #60 1 óra
-parser.add_argument("-o", "--out",dest="out", help="Output filename (with path, extension) Example: -o fol/der/data.dat", type=str, default=file)
+parser = argparse.ArgumentParser(description="Weather Station Pythonnal.", epilog="Kilépés a programból: ctrl+c")
+parser.add_argument("-t", "--time",dest="time", help="Meresi idokoz perben.", type=float, default=60) #60 1 óra
+parser.add_argument("-o", "--out",dest="out", help="Kimeneti fajl helye, neve, kiterjesztese Pl.: -o fol/der/data.dat", type=str, default=file)
 wait_time = parser.parse_args().time
 file = parser.parse_args().out
 
@@ -42,52 +42,44 @@ def check_file(file):
         f = open(file, "w+")
         f.writelines("[time]\t\t[temp]\t[hum]\t[pres]\n")
         f.close()
-
-def exit_joystick(event):
-    global retry
-    retry = False
-    #raise KeyboardInterrupt
-    #sense.show_message("Goodbye!", scroll_speed=0.1, text_colour=(255,0,0))
     
+try:
+    #create folders and files
+    check_file(file)
+    file = open(file, "a+")
+    print("Az adatok ide mentodnek:",file.name)
+    loop = True
+    while loop:
+        #get data
+        temp = sense.get_temperature_from_humidity()
+        hum = sense.get_humidity()
+        pres = sense.get_pressure()
+        correct = temp - ((get_cpu_temp()-temp)/0.98)
+        date = datetime.now().replace(microsecond = 0)
 
-def main():
-    try:
-        #create folders and files
-        global file
-        check_file(file)
-        file = open(file, "a+")
-        print("Az adatok ide mentodnek:",file.name)
-        while retry:
-            #initialize
-            temp = sense.get_temperature_from_humidity()
-            hum = sense.get_humidity()
-            pres = sense.get_pressure()
-            correct = temp - ((get_cpu_temp()-temp)/0.98)
-            global date
-            date = datetime.datetime.now().replace(microsecond=0)
-            #printing and write to file
-            print("%d:%d:%d\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres))
-            #file.writelines("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres)+"\n")
-            #mc.add_to_database(date, correct, hum, pres)
-            #plot.plot_all()
-            #plot.plot_avg()
-            #plot.plot_max()
-            #plot.plot_min()
-            #tw.post(date, correct, hum, pres)
-            #sendemail.send_email(sendemail.set_text(correct,date))
-            
-            
-            file.flush()
-            sense.stick.direction_any = exit_joystick 
-            
+        
+        #printing and write to file
+        print("%d:%d:%d\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres))
+        #file.writelines("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres)+"\n")
+        #mc.add_to_database(date, correct, hum, pres)
+        #plot.plot("all")
+        #plot.plot("min")
+        #plot.plot("max")
+        #plot.plot("avg")
+        #tw.post(date, correct, hum, pres)
+        #sendemail.send_email(sendemail.set_text(correct,date))
+        
+        file.flush()
+        
+        try:
             time.sleep(wait_time*60) #wait 1 hour 60^2, *60 percbe adja meg a paraméter
-    except KeyboardInterrupt:
-        pass
-    
-
-if __name__ == "__main__":
-    main()
-
-sense.show_message("Goodbye!", scroll_speed=0.1, text_colour=(255,0,0))
-file.close()
-sense.clear()
+        except KeyboardInterrupt:
+            loop = False
+            raise KeyboardInterrupt
+except KeyboardInterrupt:
+    sense.show_message("Goodbye!", scroll_speed=0.05, text_colour=(255,0,0))
+    file.close()
+    sense.clear()
+    sys.exit()
+finally:
+    print("Valami hiba törtnént...")

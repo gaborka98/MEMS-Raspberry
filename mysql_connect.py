@@ -19,7 +19,7 @@ def add_to_database(time, temp, hum, pres):
     cursor.execute(add_data, data)
 
 def set_date(a,b):
-    if a == "" and b == "":
+    if a == None and b == None:
         today = datetime.now().replace(microsecond = 0)
         a = datetime(today.year, today.month, today.day,8,0,0)
         b = datetime(today.year, today.month, today.day,20,0,0)
@@ -28,7 +28,7 @@ def set_date(a,b):
         b = datetime.strptime(str(b), "%Y-%m-%d %H:%M:%S")
     return (a,b)
     
-def twitter(arg,a="",b=""):
+def twitter(arg,a=None,b=None):
     if arg == "avg":
         query = ("SELECT date, AVG(temp) FROM data "
                  "WHERE date BETWEEN %s AND %s")
@@ -43,7 +43,7 @@ def twitter(arg,a="",b=""):
     for data in cursor:
         return data[0]
 
-def plot(arg, a=0, b=0):
+def plot(arg, a=None, b=None):
     data = []
     dates = []
     temps = []
@@ -59,9 +59,8 @@ def plot(arg, a=0, b=0):
         query = ("SELECT date, MAX(temp), MAX(hum), MAX(pres) FROM data "
                  "GROUP BY DATE(date)")
     elif arg == "custom":
-        query = ("SELECT date, temp, hum), AVG(pres) FROM data "
-             "GROUP BY DATE(date)" 
-             "WHERE date BETWEEN %s AND %s") % set_date(a, b) #!!!!!!!!!!!!!!!!!!!!!!!!!
+        query = ("SELECT date, temp, hum, pres FROM data "
+                 "WHERE date BETWEEN %s AND %s") % set_date(a, b) #!!!!!!!!!!!!!!!!!!!!!!!!!
     else:
         query = ("SELECT date, temp, hum, pres FROM data")
     cursor.execute(query)
