@@ -57,9 +57,6 @@
 </form>
 <?php
 if (isset($_POST["refresh"])) {
-	if ((isset($_POST("from")) != 0) && (isset($_POST("to")) != 0)) {
-		exec('python3 /var/www/html/plot.py "custom" "'. $_POST("from") .'" "' . $_POST("to") . '" > /dev/null 2>/dev/null &');
-	}
 	exec('python3 /var/www/html/plot.py > /dev/null 2>/dev/null &');
 	sleep(5);
 	header("reload:0;");

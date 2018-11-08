@@ -67,7 +67,7 @@ def plot(arg, a=None, b=None):
         query = ("SELECT date, temp, hum, pres FROM data")
     cursor.execute(query)
     for (date,temp,hum,pres) in cursor:
-            dates.append(date.date())
+            dates.append(date)
             temps.append(temp)
             hums.append(hum)
             presures.append(pres)

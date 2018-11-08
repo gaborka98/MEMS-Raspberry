@@ -1,5 +1,6 @@
 import twitter_auth
 from twython import Twython
+from twython import TwythonError
 import mysql_connect as mc
 from datetime import datetime
 
@@ -9,6 +10,7 @@ twitter = Twython(
     twitter_auth.access_token,
     twitter_auth.access_token_secret
 )
+twitter.verify_credentials()
 
 megjo = True
 def post_avg(date):
@@ -18,7 +20,10 @@ def post_avg(date):
 A mai nap átlag hőmérséklete: %s
 A mai nap legnagyobb hőmérséklete: %s
 A mai nap legkisebb hőmérséklete: %s""" % (date, mc.twitter("avg"), mc.twitter("max"), mc.twitter("min"))
-        twitter.update_status(status = msg)
+        try:
+            twitter.update_status(status = msg)
+        except TwythonError:
+            print("Valami hiba történt a napi eredmények tweetelésekor")
         megjo = False
     else:
         megjo = True
@@ -27,5 +32,8 @@ A mai nap legkisebb hőmérséklete: %s""" % (date, mc.twitter("avg"), mc.twitte
 def post(date, temp, hum, pres):
     msg = "%s - Hőmérséklet: %.2f C, Pára tartalom: %.2f g/m, Légnyomás: %.2f Pa" \
         % (date, temp, hum, pres)
-    twitter.update_status(status = msg)
+    try:
+        twitter.update_status(status = msg)
+    except TwythonError:
+        print("valamu hiba történt tweetelés közben")
     post_avg(date)

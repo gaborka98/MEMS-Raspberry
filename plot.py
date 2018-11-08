@@ -37,5 +37,3 @@ plot("all")
 plot("avg")
 plot("max")
 plot("min")
-if len(sys.argv) > 1:
-    plot(sys.argv[1], sys.argv[2], sys.argv[3])
