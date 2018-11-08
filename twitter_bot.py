@@ -19,7 +19,7 @@ def post_avg(date):
         msg = """%s
 A mai nap átlag hőmérséklete: %s
 A mai nap legnagyobb hőmérséklete: %s
-A mai nap legkisebb hőmérséklete: %s""" % (date, mc.twitter("avg"), mc.twitter("max"), mc.twitter("min"))
+A mai nap legkisebb hőmérséklete: %s""" % (date, round(mc.twitter("avg"),2), round(mc.twitter("max"), 2), round(mc.twitter("min"),2))
         try:
             twitter.update_status(status = msg)
         except TwythonError:
