@@ -32,7 +32,7 @@ def set_date(a,b):
     
 def twitter(arg,a=None,b=None):
     if arg == "avg":
-        query = ("SELECT date, AVG(temp) FROM data "
+        query = ("SELECT AVG(temp) FROM data "
                  "WHERE date BETWEEN %s AND %s")
     elif arg == "min":
         query = ("SELECT MIN(temp) FROM data "

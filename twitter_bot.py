@@ -1,6 +1,5 @@
 import twitter_auth
 from twython import Twython
-from twython import TwythonError
 import mysql_connect as mc
 from datetime import datetime
 
@@ -15,9 +14,10 @@ megjo = True
 def post_avg(date):
     global megjo
     if megjo and (date.hour == 20):
-        msg = """A mai nap átlag hőmérséklete: %s
+        msg = """%s
+A mai nap átlag hőmérséklete: %s
 A mai nap legnagyobb hőmérséklete: %s
-A mai nap legkisebb hőmérséklete: %s""" % (mc.twitter("avg"), mc.twitter("max"), mc.twitter("min"))
+A mai nap legkisebb hőmérséklete: %s""" % (date, mc.twitter("avg"), mc.twitter("max"), mc.twitter("min"))
         twitter.update_status(status = msg)
         megjo = False
     else:
