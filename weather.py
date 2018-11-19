@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 from sense_hat import SenseHat
 import mysql_connect as mc
-import os, sys
+import os
 from time import sleep
 from datetime import datetime
 import argparse
@@ -17,14 +17,12 @@ file = "/var/www/html/data/"+str(date.year)+"-"+str(date.month)+"-"+str(date.day
 parser = argparse.ArgumentParser(description="Weather Station Pythonnal.", epilog="Kilépés a programból: ctrl+c")
 parser.add_argument("-t", "--time",dest="time", help="Meresi idokoz perben.", type=float, default=60) #60 1 óra
 parser.add_argument("-o", "--out",dest="out", help="Kimeneti fajl helye, neve, kiterjesztese Pl.: -o fol/der/data.dat", type=str, default=file)
+parser.add_argument("-F", "--from", dest="fromdate", help='Kezdo datum Pl.: "2018-03-31 12:00:00"', type=str, default=None)
+parser.add_argument("-T", "--to", dest="todate", help='Veg datum Pl.: "2018-04-30 08:00:00"', type=str, default=None)
 wait_time = parser.parse_args().time
 file = parser.parse_args().out
-
-
-#if 2 > len(sys.argv):
-#    wait_time= 60^2
-#else:
-#    wait_time = int(sys.argv[1])
+fromdate = parser.parse_args().fromdate
+todate = parser.parse_args().todate
 
 def get_cpu_temp():
     res = os.popen("vcgencmd measure_temp").readline()
@@ -66,6 +64,8 @@ try:
         plot.plot("min")
         plot.plot("max")
         plot.plot("avg")
+        if fromdate != None and todate != None:
+            plot.plot("custom", fromdate, todate)
         tw.post(date, correct, hum, pres)
         sendemail.send_email(sendemail.set_text(correct,date),date)
         

@@ -53,15 +53,9 @@
 	<label>Ig (pl.: 2018-03-31 22:03:03): <input type="datetime" name="to" id="to" value="0"></label><br>
 	<button name="start" id="start">start</button><br>
 	<button name="stop" id="stop">stop</button><br>
-	<button name="refresh" id="refresh">refresh data</button><br>
 </form>
 <?php
-if (isset($_POST["refresh"])) {
-	exec('python3 /var/www/html/plot.py > /dev/null 2>/dev/null &');
-	sleep(5);
-	header("reload:0;");
-}
-else if (isset($_POST["stop"])) {
+if (isset($_POST["stop"])) {
 	exec('sudo killall weather.py');
 }
 else if (isset($_POST["start"])) {

@@ -14,7 +14,7 @@ def add_to_database(time, temp, hum, pres):
     add_data = ("INSERT INTO data "
                 "(date, temp, hum, pres) "
                 "VALUES (%s, %s, %s, %s)")
-    data= (time, round(temp,2), round(hum,2), round(pres,2))
+    data= (time, round(temp,6), round(hum,6), round(pres,6))
     
     cursor.execute(add_data, data)
     

@@ -32,8 +32,3 @@ def plot(arg, a = None, b = None):
     #plt.show()
     mpld3.save_html(fig, "/var/www/html/%s.html" %arg)
     plt.close('all')
-
-plot("all")
-plot("avg")
-plot("max")
-plot("min")
