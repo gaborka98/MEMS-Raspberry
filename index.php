@@ -50,20 +50,23 @@
 <iframe scrolling="no" src="all.html" id="iframe" name="iframe" frameborder="none" height="410" width="510">grafikonok megjelenitése</iframe><br>
 <form action="" method="post" id="buttons" name="buttons">
 	<label>Tól (pl.: 2018-03-31 22:03:03): <input type="text" name="from" id="from" value="0"></label><br>
-	<label>Ig (pl.: 2018-03-31 22:03:03): <input type="text" name="to" id="to" value="0"></label><br>
-	<button name="Custom Graph" id="custom" class="MyButton">Dátumok lekérdezése</button><br>
-	<button name="stop" id="stop" class="MyButton">stop</button><br>
+	<label>Ig (pl.: 2018-04-31 22:03:03): <input type="text" name="to" id="to" value="0"></label><br>
+	<button name="Custom Graph" id="custom">Dátumok lekérdezése</button><br>
+	<button name="refresh graph" id="refresh">Teljes lekérdezés</button><br>
 </form>
-<img src=<?php echo shell_exec('systemctl is-active')?>>
 <?php
 if (isset($_POST["custom"])) {
     $from = $_POST["from"];
     $to = $_POST["to"];
-    exec('python3 /var/www/html/plot.py "'. $from.'" "'.$to . '"');
+    exec('python3 /var/www/html/plot.py "'. $from.'" "'.$to . '" > /dev/null 2>/dev/null &');
+    sleep(3);
 }
-
-if (isset($_POST["stop"])) {
-	exec('sudo killall weather.py');
+if (isset($_POST["refresh"])) {
+	$command = escapeshellcmd('/var/www/html/test.py');
+	shell_exec($command);
+	exec('python3 /var/www/html/test.py > /dev/null 2>/dev/null &');
+	sleep(5);
+	header("reload:0;");
 }
 ?>
 </body>

@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#!/usr/bin/python3
 
 import mysql_connect as mc
 import matplotlib.pyplot as plt
@@ -32,5 +32,10 @@ def plot(arg, a = None, b = None):
     mpld3.save_html(fig, "/var/www/html/%s.html" %arg)
     plt.close('all')
 
-if len(sys.argv) > 1:
+if len(sys.argv) > 1 and sys.argv[1] != "refresh":
     plot("custom", sys.argv[1], sys.argv[2])
+else:
+    plot("all")
+    plot("avg")
+    plot("min")
+    plot("max")
