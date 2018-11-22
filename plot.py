@@ -3,7 +3,6 @@
 import mysql_connect as mc
 import matplotlib.pyplot as plt
 import mpld3
-import datetime
 import sys
 
 mydb = mc.mydb
@@ -24,7 +23,7 @@ def plot(arg, a = None, b = None):
     elif arg == "all":
         plt.title("Összes mérési adatok")
     elif arg == "custom":
-        plt.title("Mérési adatok az adott dátum közt")
+        plt.title("Mérési adatok %s és %s közt" % (a,b))
     plt.xlabel("Dátum")
     plt.ylabel("Érték")
     plt.grid()
@@ -32,3 +31,6 @@ def plot(arg, a = None, b = None):
     #plt.show()
     mpld3.save_html(fig, "/var/www/html/%s.html" %arg)
     plt.close('all')
+
+if len(sys.argv) > 1:
+    plot("custom", sys.argv[1], sys.argv[2])

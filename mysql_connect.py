@@ -14,22 +14,12 @@ def add_to_database(time, temp, hum, pres):
     add_data = ("INSERT INTO data "
                 "(date, temp, hum, pres) "
                 "VALUES (%s, %s, %s, %s)")
-    data= (time, round(temp,6), round(hum,6), round(pres,6))
+    data= (time, round(temp,2), round(hum,2), round(pres,2))
     
     cursor.execute(add_data, data)
     
     mydb.commit()
 
-def set_date(a,b):
-    if a == None and b == None:
-        today = datetime.now().replace(microsecond = 0)
-        a = datetime(today.year, today.month, today.day,8,0,0)
-        b = datetime(today.year, today.month, today.day,20,0,0)
-    else:
-        a = datetime.strptime(str(a), "%Y-%m-%d %H:%M:%S")
-        b = datetime.strptime(str(b), "%Y-%m-%d %H:%M:%S")
-    return (a,b)
-    
 def twitter(arg,a=None,b=None):
     if arg == "avg":
         query = ("SELECT AVG(temp) FROM data "
@@ -62,10 +52,10 @@ def plot(arg, a=None, b=None):
                  "GROUP BY DATE(date)")
     elif arg == "custom":
         query = ("SELECT date, temp, hum, pres FROM data "
-                 "WHERE date BETWEEN %s AND %s") % set_date(a, b) #!!!!!!!!!!!!!!!!!!!!!!!!!
+                 "WHERE date BETWEEN %s AND %s")
     else:
         query = ("SELECT date, temp, hum, pres FROM data")
-    cursor.execute(query)
+    cursor.execute(query,(a,b))
     for (date,temp,hum,pres) in cursor:
             dates.append(date)
             temps.append(temp)

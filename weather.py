@@ -46,35 +46,32 @@ try:
     check_file(file)
     file = open(file, "a+")
     print("Az adatok ide mentodnek:",file.name)
-    loop = True
-    while loop:
+    while True:
         #get data
         temp = sense.get_temperature_from_humidity()
         hum = sense.get_humidity()
         pres = sense.get_pressure()
         correct = temp - ((get_cpu_temp()-temp)/0.98)
         date = datetime.now().replace(microsecond = 0)
-
         
         #printing and write to file
         print("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres))
-        file.writelines("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres)+"\n")
-        mc.add_to_database(date, correct, hum, pres)
-        plot.plot("all")
-        plot.plot("min")
-        plot.plot("max")
-        plot.plot("avg")
-        if fromdate != None and todate != None:
-            plot.plot("custom", fromdate, todate)
-        tw.post(date, correct, hum, pres)
-        sendemail.send_email(sendemail.set_text(correct,date),date)
+        #file.writelines("%d:%d:%d\t\t%.2f\t%.2f\t%.2f" %(date.hour, date.minute, date.second, correct, hum, pres)+"\n")
+        #mc.add_to_database(date, correct, hum, pres)
+        #plot.plot("all")
+        #plot.plot("min")
+        #plot.plot("max")
+        #plot.plot("avg")
+        #if fromdate != None and todate != None:
+        #    plot.plot("custom", fromdate, todate)
+        #tw.post(date, correct, hum, pres)
+        #sendemail.send_email(sendemail.set_text(correct,date))
         
         file.flush()
         
         try:
             sleep(wait_time*60) #wait 1 hour 60^2, *60 percbe adja meg a paraméter
         except KeyboardInterrupt:
-            loop = False
             raise KeyboardInterrupt
 except KeyboardInterrupt:
     sense.show_message("Goodbye!", scroll_speed=0.05, text_colour=(255,0,0))
