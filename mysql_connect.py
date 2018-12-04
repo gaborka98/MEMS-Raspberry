@@ -24,7 +24,7 @@ def set_date(a = None, b = None):
     if a != None and b!= None:
         return (a,b)
     else:
-        return (datetime.now().replace(hour = 8, minute = 0, second = 0), datetime.now().replace(hour = 20, minute = 0, second = 0))
+        return (datetime.now().replace(hour = 8, minute = 0, second = 0, microsecond = 0), datetime.now().replace(hour = 20, minute = 0, second = 0, microsecond = 0))
 
 def twitter(arg,a=None,b=None):
     if arg == "avg":
