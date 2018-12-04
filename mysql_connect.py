@@ -19,6 +19,12 @@ def add_to_database(time, temp, hum, pres):
     cursor.execute(add_data, data)
     
     mydb.commit()
+    
+def set_date(a = None, b = None):
+    if a != None and b!= None:
+        return (a,b)
+    else:
+        return (datetime.now().replace(hour = 8, minute = 0, second = 0), datetime.now().replace(hour = 20, minute = 0, second = 0))
 
 def twitter(arg,a=None,b=None):
     if arg == "avg":
