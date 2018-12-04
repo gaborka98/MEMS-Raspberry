@@ -20,12 +20,6 @@ def add_to_database(time, temp, hum, pres):
     
     mydb.commit()
     
-def set_date(a = None, b = None):
-    if a != None and b!= None:
-        return (a,b)
-    else:
-        return (datetime.now().replace(hour = 8, minute = 0, second = 0, microsecond = 0), datetime.now().replace(hour = 20, minute = 0, second = 0, microsecond = 0))
-
 def twitter(arg,a=None,b=None):
     if arg == "avg":
         query = ("SELECT AVG(temp) FROM data "
@@ -37,7 +31,7 @@ def twitter(arg,a=None,b=None):
         query = ("SELECT date, MAX(temp) FROM data "
                  "WHERE date BETWEEN %s AND %s")
     
-    cursor.execute(query, set_date(a,b))
+    cursor.execute(query, (a,b))
     for data in cursor:
         return data[0]
 
